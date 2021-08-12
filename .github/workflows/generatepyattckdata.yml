@@ -1,0 +1,47 @@
+name: Generate ATT&CK Data
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python Environment
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -U -r ./generateattcks/requirements.txt
+    - name: Generate ATTCK Data
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        python ./generateattcks/run.py
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.SWIMLANE_PYATTCK_AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.SWIMLANE_PYATTCK_AWS_SECRET_KEY }}
+        aws-region: us-west-2
+    - name: Upload files to S3 with AWS CLI
+      run: |
+        aws s3 sync "generated_attck_data.json" s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --delete 
+        aws s3 sync "attck_to_nist_controls.json" s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --delete 
+   # - name: Commit files
+   #   run: |
+   #     git config --local user.email "action@github.com"
+   #     git config --local user.name "GitHub Action"
+   #     git add "generated_attck_data.json"
+   #     git add "attck_to_nist_controls.json"
+   #     git commit -m "Adding daily generated_attck_data"
+   # - name: Push changes
+   #   uses: ad-m/github-push-action@master
+   #   with:
+   #     github_token: ${{ secrets.GITHUB_TOKEN }}
