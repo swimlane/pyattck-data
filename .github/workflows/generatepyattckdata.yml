@@ -37,14 +37,4 @@ jobs:
       run: |
         aws s3 sync "generated_attck_data.json" s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --delete 
         aws s3 sync "attck_to_nist_controls.json" s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --delete 
-   # - name: Commit files
-   #   run: |
-   #     git config --local user.email "action@github.com"
-   #     git config --local user.name "GitHub Action"
-   #     git add "generated_attck_data.json"
-   #     git add "attck_to_nist_controls.json"
-   #     git commit -m "Adding daily generated_attck_data"
-   # - name: Push changes
-   #   uses: ad-m/github-push-action@master
-   #   with:
-   #     github_token: ${{ secrets.GITHUB_TOKEN }}
+  
