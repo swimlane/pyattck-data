@@ -1,5 +1,7 @@
 # pyattck-data
 
+[![Generate ATT&CK Data](https://github.com/swimlane/pyattck-data/actions/workflows/generatepyattckdata.yml/badge.svg)](https://github.com/swimlane/pyattck-data/actions/workflows/generatepyattckdata.yml)
+
 This repository contains generated contextual data utilized by pyattck.
 
 # Data Access
