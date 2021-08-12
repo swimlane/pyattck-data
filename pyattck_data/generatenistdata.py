@@ -3,7 +3,7 @@ import requests, json
 
 class GenerateNISTData:
 
-    __NIST_MAPPINGS_URL = 'https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-control-framework-mappings/master/frameworks/nist800-53-r4/stix/nist800-53-r4-mappings.json'
+    __NIST_MAPPINGS_URL = 'https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-control-framework-mappings/master/frameworks/ATT%26CK-v9.0/nist800-53-r5/stix/nist800-53-r5-mappings.json'
     __NIST_CONTROLS_URL = 'https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-control-framework-mappings/master/frameworks/ATT%26CK-v9.0/nist800-53-r5/stix/nist800-53-r5-controls.json'
     __NIST_MAPPINGS_DATA = None
     __NIST_CONTROLS_DATA = None
