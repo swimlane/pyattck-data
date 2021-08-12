@@ -26,6 +26,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        #python run.py
         echo "running run.py"
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -35,7 +36,6 @@ jobs:
         aws-region: us-west-2
     - name: Upload files to S3 with AWS CLI
       run: |
-        echo $PWD
-        ls -al
-        aws s3 sync . s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --exclude "*" --include "*.json" --delete 
-  
+        aws s3 cp generated_attck_data.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }}
+        aws s3 cp attck_to_nist_controls.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }}
+       
