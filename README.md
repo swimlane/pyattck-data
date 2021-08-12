@@ -2,6 +2,13 @@
 
 This repository contains generated contextual data utilized by pyattck.
 
+# Data Access
+
+Generated data can be retrieved from the following URLs:
+
+* generated_attck_data.json - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json)
+* attck_to_nist_controls.json - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json)
+
 # Generated ATT&CK Datasets
 
 This page outlines and provides detailed information regarding the data generated and used with the `pyattck` python package.
