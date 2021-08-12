@@ -15,7 +15,7 @@ This page outlines and provides detailed information regarding the data generate
 
 ## Data Categories
 
-At this time, a shareable JSON file is generated on a daily basis and pushed to the `pyattck` repository.  You can view this raw file here: [generated_attck_data.json](https://raw.githubusercontent.com/swimlane/pyattck/master/generated_attck_data.json)
+At this time, a shareable JSON file is generated on the `1st` and `15th` of the month and stored in a S3 bucket. This data is used and retrieved by `pyattck`.
 
 This generated json file has the following main keys:
 
@@ -105,7 +105,7 @@ This generated json file has the following main keys:
 
 ## Generated Attck Data Structure
 
-The [generated_attck_data.json](https://raw.githubusercontent.com/swimlane/pyattck/master/generated_attck_data.json) has the following base structure. This is purely an example and contains modified/fake data.
+The [generated_attck_data.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json) has the following base structure. This is purely an example and contains modified/fake data.
 
 
 ```json
@@ -171,17 +171,21 @@ The [generated_attck_data.json](https://raw.githubusercontent.com/swimlane/pyatt
 
 This data set is generated from many different sources. As we continue to add more sources, we will continue to add them here.  Again thank you to all of these projects.  In no particular order, `pyattck` utilizes data from the following projects:
 
-- [Mitre ATT&CK APT3 Adversary Emulation Field Manual](https://attack.mitre.org/docs/APT3_Adversary_Emulation_Field_Manual.xlsx)
-- [Atomic Red Team (by Red Canary)](https://github.com/redcanaryco/atomic-red-team)
-- [Atomic Threat Coverage](https://github.com/atc-project/atomic-threat-coverage)
-- [attck_empire (by dstepanic)](https://github.com/dstepanic/attck_empire)
-- [sentinel-attack (by BlueTeamLabs)](https://github.com/BlueTeamLabs/sentinel-attack)
-- [Litmus_test (by Kirtar22)](https://github.com/Kirtar22/Litmus_Test)
-- [nsm-attack (by oxtf)](https://github.com/0xtf/nsm-attack)
-- [osquery-attck (by teoseller)](https://github.com/teoseller/osquery-attck)
-- [Mitre Stockpile](https://github.com/mitre/stockpile)
-- [SysmonHunter (by baronpan)](https://github.com/baronpan/SysmonHunter)
-- [ThreatHunting-Book (by 12306Bro)](https://github.com/12306Bro/Threathunting-book)
-- [threat_hunting_tables (by dwestgard)](https://github.com/dwestgard/threat_hunting_tables)
-- [APT Groups & Operations](https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit#gid=1864660085)
-- [C2Matrix (by @jorgeorchilles, @brysonbort, @adam_mashinchi)](https://www.thec2matrix.com/)
+* [Mitre ATT&CK APT3 Adversary Emulation Field Manual](https://attack.mitre.org/docs/APT3_Adversary_Emulation_Field_Manual.xlsx)
+* [Atomic Red Team (by Red Canary)](https://github.com/redcanaryco/atomic-red-team)
+* [Atomic Threat Coverage](https://github.com/atc-project/atomic-threat-coverage)
+* [attck_empire (by dstepanic)](https://github.com/dstepanic/attck_empire)
+* [sentinel-attack (by BlueTeamLabs)](https://github.com/BlueTeamLabs/sentinel-attack)
+* [Litmus_test (by Kirtar22)](https://github.com/Kirtar22/Litmus_Test)
+* [nsm-attack (by oxtf)](https://github.com/0xtf/nsm-attack)
+* [osquery-attck (by teoseller)](https://github.com/teoseller/osquery-attck)
+* [Mitre Stockpile](https://github.com/mitre/stockpile)
+* [SysmonHunter (by baronpan)](https://github.com/baronpan/SysmonHunter)
+* [ThreatHunting-Book (by 12306Bro)](https://github.com/12306Bro/Threathunting-book)
+* [threat_hunting_tables (by dwestgard)](https://github.com/dwestgard/threat_hunting_tables)
+* [APT Groups & Operations](https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit#gid=1864660085)
+* [C2Matrix (by @jorgeorchilles, @brysonbort, @adam_mashinchi)](https://www.thec2matrix.com/)
+* [Elemental](https://github.com/Elemental-attack/Elemental)
+* [MalwareArchaeology - ATTACK](https://github.com/MalwareArchaeology/ATTACK)
+* [Attack-Technique-Dataset](https://github.com/NewBee119/Attack-Technique-Dataset)
+
