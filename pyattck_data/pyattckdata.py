@@ -25,7 +25,7 @@ from .services import (
 
 class PyattckData:
 
-    __conversion_file = os.path.abspath(os.path.join(os.path.dirname(__file__), 'conversion' + '.json'))
+    __conversion_file = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'conversion' + '.json'))
     conversion_data = None
 
     def __init__(self):
@@ -40,7 +40,7 @@ class PyattckData:
                 with open(self.__conversion_file, 'r') as file:
                     self.conversion_data = json.load(file)
             except:
-                self.conversion_data = requests.get('https://github.com/swimlane/pyattck/blob/master/generateattcks/generateattcks/conversion.json?raw=true').json()
+                self.conversion_data = requests.get('https://raw.githubusercontent.com/swimlane/pyattck-data/main/pyattck_data/data/conversion.json').json()
         return self.conversion_data
 
     def get(self):

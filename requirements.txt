@@ -1,7 +1,8 @@
 requests
-PyYAML>=5.4
+PyYAML>=6.0
 pygithub
 xlrd==1.2.0
 markdown
 googletrans
 bs4
+pynacl==1.4.0
