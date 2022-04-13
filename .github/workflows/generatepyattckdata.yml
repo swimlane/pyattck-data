@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - inf-2141-github-actions-oidc-role
 
 jobs:
   build:
@@ -30,8 +31,7 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.SWIMLANE_PYATTCK_AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.SWIMLANE_PYATTCK_AWS_SECRET_KEY }}
+        role-to-assume: arn:aws:iam::265337873895:role/pyattck
         aws-region: us-west-2
     - name: Upload files to S3 with AWS CLI
       run: |
