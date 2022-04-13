@@ -32,7 +32,7 @@ jobs:
 #       run: |
 #         python run.py
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@master
+      uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: arn:aws:iam::265337873895:role/pyattck
         aws-region: us-west-2
