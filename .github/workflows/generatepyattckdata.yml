@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-      - inf-2141-github-actions-oidc-role
 
 jobs:
   build:
