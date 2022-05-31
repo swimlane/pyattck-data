@@ -1,7 +1,11 @@
 import abc
 
+from pyattck_data_models import GeneratedData
+
 
 class Base:
+
+    generated_data = GeneratedData()
 
     def run(self):
         try:

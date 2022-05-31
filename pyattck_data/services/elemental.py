@@ -1,7 +1,6 @@
-import requests, yaml, base64, re
+import requests, yaml
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -26,7 +25,6 @@ class ElementalAttack(GitHubController, Base):
         self._dataset = []
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -37,12 +35,9 @@ class ElementalAttack(GitHubController, Base):
                 if file_content.path.endswith('yml'):
                     if 'sigma_rules/' in file_content.path:
                         content = self.__download_content(self.__RAW_URL.format(file_content.path))
-                        return_list.append(self.__get_attack_template(content))
-        return return_list
-
+                        self.__get_attack_template(content)
 
     def __get_attack_template(self, return_list):
-        template = AttackTemplate()
         technique_id = None
         group_id = None
         for item in return_list:
@@ -53,11 +48,11 @@ class ElementalAttack(GitHubController, Base):
                             technique_id = tag.split('.')[1].upper()
                         if tag.split('.')[1].startswith('g'):
                             group_id = tag.split('.')[1].upper()
-                template.id = technique_id
             if technique_id:
-                template.add_detection_data_sources(item)
-        return template.get()
-
+                self.generated_data.add_possible_detection(
+                    technique_id=technique_id,
+                    data=item
+                )
 
     def __download_content(self, url):
         return_list = []

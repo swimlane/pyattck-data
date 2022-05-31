@@ -2,7 +2,6 @@ import requests
 
 from ..githubcontroller import GitHubController
 from ..markdowntable import MarkdownTable
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -26,7 +25,6 @@ class NSMAttck(GitHubController, Base):
         self.__temp_attack_paths = []
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -43,18 +41,22 @@ class NSMAttck(GitHubController, Base):
             else:
                 if file_content.path.endswith('.md') and file_content.path.split('/')[0].startswith('T'):
                     content = self.__download_raw_content(file_content.download_url)
-                    return_list.append(self.__parse_markdown(content, file_content.path.split('/')[0]))
-        return return_list
+                    self.__parse_markdown(content, file_content.path.split('/')[0])
 
     def __parse_markdown(self, content, technique_id):
         if content:
-            template = AttackTemplate()
-            template.id = technique_id
             for row in MarkdownTable(raw_content=content).rows():
                 detection = dict(row)
-                template.add_possible_queries('Suricata (NSM)', detection['Signature'], name='{} Rule'.format(detection['Rules']))
-                template.add_dataset(self.__REPO, detection)
-            return template.get()
+                self.generated_data.add_possible_queries(
+                    technique_id=technique_id,
+                    product="Suricata (NSM)",
+                    content=detection["Signature"],
+                    name=f"{detection['Rules']} Rule"
+                )
+                self.generated_data.add_dataset(
+                    technique_id=technique_id,
+                    content=detection
+                )
 
     def __download_raw_content(self, url):
         response = self.session.get(url.encode('utf-8'))

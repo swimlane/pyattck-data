@@ -7,7 +7,6 @@ import re
 from googletrans import Translator
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -51,7 +50,7 @@ class ThreatHuntingBook(GitHubController, Base):
                         pass
         return return_list
 
-    def _parse_code_blocks(self, content, template):
+    def _parse_code_blocks(self, content, technique_id):
         regexp = re.compile(r"((.*\n){2})`` `([^`]*)`` `")
         found = re.findall(regexp, content)
         name = None
@@ -75,30 +74,48 @@ class ThreatHuntingBook(GitHubController, Base):
                                     type_name = line
                                     break
                                 if type_name:
-                                    template.add_command(self.__URL, stripped_match, name=type_name)
+                                    self.generated_data.add_command(
+                                        technique_id=technique_id,
+                                        source=self.__URL,
+                                        name=type_name,
+                                        command=stripped_match
+                                    )
                                 else:
-                                    template.add_command(self.__URL, stripped_match)
+                                    self.generated_data.add_command(
+                                        technique_id=technique_id,
+                                        source=self.__URL,
+                                        name='',
+                                        command=stripped_match
+                                    )
                             if 'detection rules' in name:
                                 for line in stripped_match.splitlines():
                                     type_name = line
                                     break
                                 if type_name:
-                                    template.add_possible_queries(self.__URL, stripped_match, name=type_name)
+                                    self.generated_data.add_possible_queries(
+                                        technique_id=technique_id,
+                                        product=self.__URL,
+                                        content=stripped_match,
+                                        name=type_name
+                                    )
                                 else:
-                                    template.add_command(self.__URL, stripped_match)
-        return template
+                                    self.generated_data.add_command(
+                                        technique_id=technique_id,
+                                        source=self.__URL,
+                                        name='',
+                                        command=stripped_match
+                                    )
 
     def __parse_markdown(self, content):
-        template = AttackTemplate()
+        technique_id = None
         if content.strip():
              for line in content.splitlines():
                 if line.startswith('# '):
                     if line.strip('# ').split('-')[0].startswith('T'):
-                        template.id = line.strip('# ').split('-')[0].strip()
+                        technique_id = line.strip('# ').split('-')[0].strip()
                         break
-        return (self._parse_code_blocks(content, template)).get()
-    
-        
+        self._parse_code_blocks(content, technique_id)
+
     def __download_raw_content(self, url):
         response = self.session.get(url.encode('utf-8'))
         if response.status_code == 200:

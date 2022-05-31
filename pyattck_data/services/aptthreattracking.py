@@ -2,7 +2,6 @@ import csv
 
 import requests
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -65,37 +64,24 @@ class APTThreatTracking(Base):
                     continue
                 c2_dict = dict(zip(headers, item))
                 dict_list.append(c2_dict)
-        
-        if sheet_name == 'israel':
-            return { 'israel': self.__parse_data(dict_list) }
-        elif sheet_name == 'iran':
-            return { 'iran': self.__parse_data(dict_list) }
-        elif sheet_name == 'middle_east':
-            return { 'middle_east': self.__parse_data(dict_list) }
-        elif sheet_name == 'north_korea':
-            return { 'north_korea': self.__parse_data(dict_list) }
-        elif sheet_name == 'china':
-            return { 'china': self.__parse_data(dict_list) }
-        elif sheet_name == 'russia':
-            return { 'russia': self.__parse_data(dict_list) }
-        elif sheet_name == 'nato':
-            return { 'nato': self.__parse_data(dict_list) }
-        elif sheet_name == 'malware':
-            return { 'malware': self.__parse_malware_tool_data(dict_list) }
-        elif sheet_name == 'other':
-            return { 'other': self.__parse_data(dict_list) }
-        elif sheet_name == 'unknown':
-            return { 'unknown': self.__parse_data(dict_list) }
+    
+        if sheet_name not in ['malware', 'dll_side_loading', 'naming_schema', 'sources']:
+            self.__parse_data(sheet_name, dict_list=dict_list)
+        else:
+            self.__parse_malware_tool_data(dict_list=dict_list)
 
     def __parse_malware_tool_data(self, dict_list):
         tool_names = []
         family_names = []
         comments = None
         links = []
-        template = AttackTemplate()
         for item in dict_list:
             for key, val in item.items():
                 if 'name' in key.lower() and val:
+                    tool_names.append(val)
+                elif 'dll' in key.lower() and val:
+                    tool_names.append(val)
+                elif 'product' in key.lower() and val:
                     tool_names.append(val)
                 elif 'family' in key.lower() and val:
                     family_names.append(val)
@@ -104,23 +90,26 @@ class APTThreatTracking(Base):
                 elif 'link' in key.lower() and val:
                     links.append(val)
             if tool_names or family_names or comments or links:
-                template.add_malware_tools_data(tool_names, family_names, comments, links)
+                self.generated_data.add_tool_item(
+                    names=tool_names,
+                    comments=comments,
+                    family=family_names,
+                    links=links
+                )
             tool_names = []
             family_names = []
             comments = None
             links = []
-        return template.get()
 
-    def __parse_data(self, dict_list):
+    def __parse_data(self, country, dict_list):
         actor_names = []
-        target = None
+        target = []
         operations = []
         description = None
         links = []
         tools = []
         attck_id = None
         comment = None
-        template = AttackTemplate()
         for item in dict_list:
             for key,val in item.items():
                 if 'name' in key.lower() and val:
@@ -135,7 +124,7 @@ class APTThreatTracking(Base):
                 elif 'att&ck' in key.lower() and val:
                     attck_id = val
                 elif 'target' in key.lower() and val:
-                    target = val
+                    target.append(val)
                 elif 'operation' in key.lower() and val:
                     operations.append(val)
                 elif 'operandi' in key.lower() and val:
@@ -153,22 +142,22 @@ class APTThreatTracking(Base):
                     comment = val
             
             if actor_names or target or operations or description or tools or links or attck_id or comment:
-                template.add_actor_data(
-                    actor_names,
-                    target,
-                    operations,
-                    description,
-                    tools,
-                    links,
-                    attck_id=attck_id,
+                self.generated_data.add_actor_item(
+                    country=country,
+                    names=actor_names,
+                    targets=target,
+                    operations=operations,
+                    description=description,
+                    tools=tools,
+                    links=links,
+                    attack_id=attck_id,
                     comment=comment
                 )
             actor_names = []
-            target = None
+            target = []
             operations = []
             description = None
             links = []
             tools = []
             attck_id = None
             comment = None
-        return template.get()

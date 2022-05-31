@@ -1,7 +1,6 @@
-import requests, yaml, base64
+import requests, yaml
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -47,7 +46,6 @@ class MitreStockpile(GitHubController, Base):
         return self.__attack_paths
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -58,35 +56,10 @@ class MitreStockpile(GitHubController, Base):
                 if file_content.path.endswith('yml') and not file_content.path.endswith('index.yaml'):
                     if 'data/adversaries' in file_content.path:
                         content = self.__download_raw_content(self.__RAW_URL.format(file_content.path))
-                        parsed_yaml = self.__parse_yaml_content(content, file_content.path)
-                        if parsed_yaml:
-                            return_list.append(parsed_yaml)
+                        self.__parse_yaml_content(content, file_content.path)
                     if 'data/abilities' in file_content.path:
                         content = self.__download_raw_content(self.__RAW_URL.format(file_content.path))
-                        parsed_yaml = self.__parse_yaml_content(content, file_content.path)
-                        if parsed_yaml:
-                            return_list.append(parsed_yaml)
-        self.stockpile = return_list
-
-        return_list = []
-        for content in self.stockpile:
-            if content:
-                for path in self.__temp_attack_paths:
-                    for item in content['parsed_datasets']:
-                        for k,v in item.items():
-                            for key,val in path['phases'].items():
-                                if isinstance(val, list):
-                                    for i in val:
-                                        if v['id'] == i:
-                                            path['phases'][key].append({
-                                                'technique_id': v['technique']['attack_id'],
-                                                'name': v['name'],
-                                                'description': v['description']
-                                            })
-                                            path['phases'][key].remove(i)
-                    return_list.append(path)
-        
-        self.attack_paths = return_list
+                        self.__parse_yaml_content(content, file_content.path)
 
     def gen_dict_extract(self, key, var):
         if hasattr(var,'items'):
@@ -103,19 +76,29 @@ class MitreStockpile(GitHubController, Base):
                         
     def __parse_yaml_content(self, content, url):
         if isinstance(content, list):
-            template = AttackTemplate()
             for item in content:
-                template.id = item['technique']['attack_id']
                 if item.get('platforms'):
                     if isinstance(item['platforms'], dict):
                         new_item = self.gen_dict_extract('command', item)
                         if new_item:
                             for command in new_item:
-                                template.add_command(url, command, name=item['description'])
+                                self.generated_data.add_command(
+                                    technique_id=item["technique"]["attack_id"],
+                                    source=url,
+                                    command=command,
+                                    name=item["description"]
+                                )
                     else:
-                        template.add_command(url,item['platforms'], name=item['description'])
-                template.add_dataset('Mitre Stockpile - {}'.format(item['description']),item)
-            return template.get()
+                        self.generated_data.add_command(
+                            technique_id=item["technique"]["attack_id"],
+                            source=url,
+                            command=item["platforms"],
+                            name=item["description"]
+                        )
+                self.generated_data.add_dataset(
+                    technique_id=item["technique"]["attack_id"],
+                    content=item
+                )
         else:
             if content:
                 if 'phases' in content:

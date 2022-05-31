@@ -1,8 +1,5 @@
 import requests, xlrd
-from io import BytesIO
-from zipfile import ZipFile
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -53,21 +50,33 @@ class AdversaryEmulation(Base):
 
 
     def __format(self, data):
-        return_list = []
         for item in data:
-            template = AttackTemplate()
-            template.id = item['Category']
             if item['Built-in Windows Command']:
-                template.add_command(self.URL, item['Built-in Windows Command'],name='Built-in Windows Command')
+                self.generated_data.add_command(
+                    technique_id=item["Category"],
+                    command=item['Built-in Windows Command'],
+                    source=self.URL,
+                    name='Built-in Windows Command'
+                )
             if item['Cobalt Strike']:
-                template.add_command(self.URL, item['Cobalt Strike'],name='Cobalt Strike')
+                self.generated_data.add_command(
+                    technique_id=item["Category"],
+                    source=self.URL, 
+                    name='Cobalt Strike',
+                    command=item["Cobalt Strike"]
+                )
             if item['Metasploit']:
-                template.add_command(self.URL, item['Metasploit'],name='Metasploit')
-                
-            template.add_dataset('Mitre APT3 Adversary Emulation Field Manual', item)
-            return_list.append(template.get())
-        return return_list
-
+                self.generated_data.add_command(
+                    technique_id=item["Category"],
+                    source=self.URL,
+                    name='Metasploit',
+                    command=item['Metasploit']
+                )
+            self.generated_data.add_dataset(
+                technique_id=item["Category"],
+                content=item
+            )
+           
     def get(self):
         response = requests.get(self.URL)
         workbook = xlrd.open_workbook(file_contents=response.content)  # open workbook

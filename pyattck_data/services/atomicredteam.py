@@ -1,7 +1,6 @@
 import requests, yaml
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -22,7 +21,6 @@ class AtomicRedTeam(GitHubController, Base):
         self._dataset = []
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -33,13 +31,10 @@ class AtomicRedTeam(GitHubController, Base):
                 if file_content.path.endswith('yaml') and not file_content.path.endswith('index.yaml'):
                     if 'atomics/' in file_content.path:
                         content = self.__download_raw_content(self.__RAW_URL.format(file_content.path))
-                        return_list.append(self.__parse_yaml_content(content, file_content.path))
-        
-        return return_list
-                        
+                        self.__parse_yaml_content(content, file_content.path)
+
     def __parse_yaml_content(self, content, url):
         if 'atomic_tests' in content:
-            template = AttackTemplate()
             for test in content['atomic_tests']:
                 if 'executor' in test:
                     if 'command' in test['executor']:
@@ -57,13 +52,24 @@ class AtomicRedTeam(GitHubController, Base):
                                         self.temp_command_string = self.temp_command_string.replace(replacement_string, test['input_arguments'][key]['default'])
                                     except:
                                         pass
-                                template.add_command(url,self.temp_command_string)
+                                self.generated_data.add_command(
+                                    technique_id=content["attack_technique"],
+                                    source=url,
+                                    name=f"Atomic Red Team Test - {content['display_name']}",
+                                    command=self.temp_command_string
+                                )
                                 self.temp_command_string = None
                         else:
-                            template.add_command(url,test['executor']['command'])
-            template.id = content['attack_technique']
-            template.add_dataset('Atomic Red Team Test - {name}'.format(name=content['display_name']), content)
-            return template.get()
+                            self.generated_data.add_command(
+                                    technique_id=content["attack_technique"],
+                                    source=url,
+                                    name=f"Atomic Red Team Test - {content['display_name']}",
+                                    command=test['executor']['command']
+                                )
+            self.generated_data.add_dataset(
+                technique_id=content["attack_technique"],
+                content=content
+            )
 
     def __download_raw_content(self, url):
         response = self.session.get(url)

@@ -1,8 +1,5 @@
 import requests, xlrd
-from io import BytesIO
-from zipfile import ZipFile
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -37,25 +34,31 @@ class AttckEmpire(Base):
         return rows
 
     def __format(self, data):
-        return_list = []
         for item in data:
-            template = AttackTemplate()
             if 'ATT&CK Technique #1' in item:
-                template.id = item['ATT&CK Technique #1']
                 if 'Empire Module' in item:
-                    template.add_command(self.URL, item['Empire Module'], name='Empire Module Command')
+                    self.generated_data.add_command(
+                        technique_id=item['ATT&CK Technique #1'],
+                        source=self.URL,
+                        name="Empire Module Command",
+                        command=item["Empire Module"]
+                    )
             if 'ATT&CK Technique #2' in item:
-                template.id = item['ATT&CK Technique #1']
                 if 'Empire Module' in item:
-                    template.add_command(self.URL, item['Empire Module'], name='Empire Module Command')
-                
-            template.add_dataset('Empire Module XLSX Sheet by dstepanic', item)
-            return_list.append(template.get())
-        return return_list
+                    self.generated_data.add_command(
+                        technique_id=item['ATT&CK Technique #1'],
+                        source=self.URL,
+                        name="Empire Module Command",
+                        command=item["Empire Module"]
+                    )
+            self.generated_data.add_dataset(
+                technique_id=item['ATT&CK Technique #1'],
+                content=item
+            )
 
     def get(self):
         response = requests.get(self.URL)
         workbook = xlrd.open_workbook(file_contents=response.content)  # open workbook
         worksheet = workbook.sheet_by_index(0)  # get first sheet
         parsed_data = self._parse(worksheet)
-        return self.__format(parsed_data)
+        self.__format(parsed_data)

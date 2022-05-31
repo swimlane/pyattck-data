@@ -1,7 +1,6 @@
-import requests, base64, json
+import requests, json
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -39,8 +38,6 @@ class MacOSAttackDataset(GitHubController, Base):
     
     def __parse_json_content(self, content, url):
         template = AttackTemplate()
-
-        print(url)
         command_string = []
         for item in content:
             for key,val in item.items():

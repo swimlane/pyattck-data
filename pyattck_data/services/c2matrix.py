@@ -1,7 +1,6 @@
 import csv
 import requests
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -22,12 +21,11 @@ class C2Matrix(Base):
     def get(self):
         response = requests.get(self._URL)
         data = response.text
-        return self._parse(data)
+        self._parse(data)
 
     def _parse(self, data):
         count = 0
         headers = None
-        template = AttackTemplate()
         for item in csv.reader(data.splitlines()):
             count += 1
             if count == 1:
@@ -36,6 +34,4 @@ class C2Matrix(Base):
                 headers = item
                 continue
             c2_dict = dict(zip(headers, item))
-
-            template.add_c2_data(c2_dict['Name'], c2_dict)
-        return template.get()
+            self.generated_data.add_c2_data(c2_dict)

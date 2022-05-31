@@ -1,6 +1,5 @@
 import requests
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -25,12 +24,9 @@ class NewBeeAttackDataset(Base):
                 if item not in return_dict:
                     return_dict[item] = []
                 return_dict[item].append(key)
-
-        return_list = []
-        template = AttackTemplate()
         for key,val in return_dict.items():
-            template.id = key
             for item in val:
-                template.add_external_reference(item)
-            return_list.append(template.get())
-        return return_list
+                self.generated_data.add_external_reference(
+                    technique_id=key,
+                    reference=item
+                )

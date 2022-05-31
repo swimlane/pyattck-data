@@ -2,7 +2,6 @@ import requests
 import yaml
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -33,27 +32,28 @@ class AttckDatasources(GitHubController, Base):
             else:
                 if file_content.path.endswith('techniques_to_relationships_mapping.yaml'):
                     content = self.__download_raw_content(self.__RAW_URL.format(file_content.path))
-                    return self.__parse_yaml_content(content, file_content.path)
+                    self.__parse_yaml_content(content, file_content.path)
 
     def __parse_yaml_content(self, content, url):
-        return_list = []
         for item in content:
-            template = AttackTemplate()
-            template.id = item.get('technique_id')
-            template.add_external_reference(item.get('references'))
-            template.add_detection_data_sources({
-                'data_source': item.get('data_source'),
-                'defintion': item.get('defintion'),
-                'collection_layers': item.get('collection_layers'),
-                'data_source_platform': item.get('data_source_platform'),
-                'data_component': item.get('data_component'),
-                'description': item.get('description'),
-                'source_data_element': item.get('source_data_element'),
-                'relationship': item.get('relationship'),
-                'target_data_element': item.get('target_data_element')
-            })
-            return_list.append(template.get())
-        return return_list
+            self.generated_data.add_possible_detection(
+                technique_id=item.get("technique_id"),
+                data={
+                    'data_source': item.get('data_source'),
+                    'definition': item.get('definition'),
+                    'collection_layers': item.get('collection_layers'),
+                    'data_source_platform': item.get('data_source_platform'),
+                    'data_component': item.get('data_component'),
+                    'description': item.get('description'),
+                    'source_data_element': item.get('source_data_element'),
+                    'relationship': item.get('relationship'),
+                    'target_data_element': item.get('target_data_element')
+                }
+            )
+            self.generated_data.add_external_reference(
+                technique_id=item.get("technique_id"),
+                reference=item.get("references")
+            )
 
     def __download_raw_content(self, url):
         response = self.session.get(url)

@@ -1,6 +1,5 @@
 import requests, yaml
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -33,13 +32,16 @@ class SysmonHunter(Base):
                             yield result
 
     def get(self):
-        return_list = []
         for key,val in self.__get_data().items():
-            template = AttackTemplate()
-            template.id = key
             for item in val['query']:
                 command_name = ''.join(self.gen_dict_extract('pattern', item))
-                template.add_command('SysmonHunter - {}'.format(val['name']), command_name)
-            template.add_dataset('SysmonHunter - {}'.format(key), val)
-            return_list.append(template.get())
-        return return_list
+                self.generated_data.add_command(
+                    technique_id=key,
+                    source=f"SysmonHunter - {val['name']}",
+                    command=command_name,
+                    name=''
+                )
+            self.generated_data.add_dataset(
+                technique_id=key,
+                content=val
+            )

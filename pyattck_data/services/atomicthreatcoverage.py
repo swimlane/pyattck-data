@@ -1,11 +1,6 @@
 import requests, re, yaml
-try:
-    from StringIO import StringIO ## for Python 2
-except ImportError:
-    from io import StringIO ## for Python 3
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -31,7 +26,6 @@ class AtomicThreatCoverage(GitHubController, Base):
         self.__temp_attack_paths = []
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -47,15 +41,13 @@ class AtomicThreatCoverage(GitHubController, Base):
                         except:
                             pass
                         if content:
-                            return_list.append(content.get())
-        return return_list
+                            content.get()
 
     def __download_raw_content(self, url):
         response = self.session.get(url)
         if response.status_code == 200:
             regexp = re.compile(r"((.*\n){2})```([^`]*)```")
             found = re.findall(regexp, response.content)
-            template = AttackTemplate()
             for item in found:
                 if isinstance(item, tuple):
                     name = None
@@ -76,16 +68,18 @@ class AtomicThreatCoverage(GitHubController, Base):
                                         for t in yml['tags']:
                                             if len(t.split('.')) >= 2:
                                                 if t.split('.')[1].startswith('t'):
-                                                    template = AttackTemplate()
-                                                    template.id = t.split('.')[1].upper()
-                                                    template.add_possible_queries('Atomic Threat Coverage', content, name=name)
-                                    else:
-                                        template.id = 'T0000'
-                                template.add_possible_queries('Atomic Threat Coverage', content, name=name)
+                                                    self.generated_data.add_possible_queries(
+                                                        technique_id=t.split('.')[1].upper(),
+                                                        product='Atomic Threat Coverage',
+                                                        content=content,
+                                                        name=name
+                                                    )
+                            
+                                self.generated_data.add_possible_queries(
+                                    technique_id='T0000',
+                                    product='Atomic Threat Coverage',
+                                    content=content,
+                                    name=name
+                                )
                                 name = None
                                 content = None
-        if getattr(template, 'id', None):
-            return template
-        else:
-            template.id = 'T0000'
-            return template

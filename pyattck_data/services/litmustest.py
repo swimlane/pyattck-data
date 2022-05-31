@@ -1,9 +1,6 @@
-import requests, yaml, markdown
-
-from bs4 import BeautifulSoup
+import requests, markdown
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -26,7 +23,6 @@ class LitmusTest(GitHubController, Base):
         self.__temp_attack_paths = []
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -36,33 +32,32 @@ class LitmusTest(GitHubController, Base):
             else:
                 if file_content.path.endswith('.md') and file_content.path.split('/')[-1].startswith('T'):
                     content = self.__download_raw_content(file_content.download_url)
-                    template = self.__parse_markdown(content)
-                    if template:
-                        return_list.append(template)
-        return return_list
-
+                    self.__parse_markdown(content)
 
     def __parse_markdown(self, content):
         if content.strip():
-            template = AttackTemplate()
             template_id = False
             commands = False
             data_sources = False
             queries = False
             for line in content.splitlines():
                 line = str(line.decode('utf-8'))
-                if template_id is False:
+                if not template_id:
                     if line.startswith('# '):
                         if line.strip('# ').split('-')[0].startswith('T'):
-                            template.id = line.strip('# ').split('-')[0].strip()
-                            template_id = True
+                            template_id = line.strip('# ').split('-')[0].strip()
                 if '## Simulating the attack' in line:
                     commands = True
                     continue
                 if commands:
                     if line:
                         if not line.startswith('#'):
-                            template.add_command(self.__REPO, line.strip())
+                            self.generated_data.add_command(
+                                technique_id=template_id,
+                                source=self.__REPO,
+                                command=line.strip(),
+                                name=''
+                            )
                         elif line.startswith('#'):
                             commands = False
                 if '## Data sources' in line:
@@ -71,7 +66,10 @@ class LitmusTest(GitHubController, Base):
                 if data_sources:
                     if line:
                         if not line.startswith('#'):
-                            template.add_detection_data_sources(line.strip())
+                            self.generated_data.add_possible_detection(
+                                technique_id=template_id,
+                                data=line.strip()
+                            )
                         elif line.startswith('#'):
                             data_sources = False
                 if '## Splunk Queries' in line:
@@ -82,12 +80,15 @@ class LitmusTest(GitHubController, Base):
                         if line.startswith('###'):
                             continue
                         if not line.startswith('#'):
-                            template.add_possible_queries('Splunk',line.strip())
+                            self.generated_data.add_possible_queries(
+                                technique_id=template_id,
+                                product="Splunk",
+                                content=line.strip(),
+                                name=''
+                            )
                         elif line.startswith('#'):
                             queries = False
-            return template.get()
-        
-        
+
     def __download_raw_content(self, url):
         response = self.session.get(url)
         if response.status_code == 200:

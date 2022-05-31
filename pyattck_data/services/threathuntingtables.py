@@ -1,6 +1,5 @@
 import requests, csv
 
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -32,30 +31,33 @@ class ThreatHuntingTables(Base):
         return int(val) if val.is_integer() else val
 
     def get(self):
-        return_list = []
         for item in self.__get_csv_data():
             if item['mitre_attack'].startswith('T'):
-                template = AttackTemplate()
-                template.id = item['mitre_attack']
                 if item['parent_process']:
                     if item['commandline_string']:
-                        template.add_command('Threat Hunting Tables','{} {}'.format(item['parent_process'], item['commandline_string']))
+                        self.generated_data.add_command(
+                            technique_id=item["mitre_attack"],
+                            source="Threat Hunting Tables",
+                            name='',
+                            command=f"{item['parent_process']} {item['commandline_string']}"
+                        )
                     else:
-                        template.add_command('Threat Hunting Tables',item['parent_process'], name='parent_process')
-                if item['file_path']:
-                    template.add_command('Threat Hunting Tables',item['file_path'], name='file_path')
-                if item['registry_path']:
-                    template.add_command('Threat Hunting Tables',item['registry_path'],name='registry_path')
-                if item['registry_value']:
-                    template.add_command('Threat Hunting Tables',item['registry_value'], name='registry_value')
-                
-                if item['loaded_dll']:
-                    template.add_command('Threat Hunting Tables',item['loaded_dll'], name='loaded_dll')
-                if item['sub_process_1']:
-                    template.add_command('Threat Hunting Tables',item['sub_process_1'], name='sub_process_1')
-                if item['sub_process_2']:
-                    template.add_command('Threat Hunting Tables',item['sub_process_2'], name='sub_process_2')
-
-                template.add_dataset('Threat Hunting Tables', item)
-                return_list.append(template.get())
-        return return_list
+                        self.generated_data.add_command(
+                            technique_id=item["mitre_attack"],
+                            source="Threat Hunting Tables",
+                            name="parent_process",
+                            command=item['parent_process']
+                        )
+                for key in ["file_path", "registry_path", "registry_value", "loaded_dll", "sub_process_1", "sub_process_2"]:
+                    if item.get(key):
+                        
+                        self.generated_data.add_command(
+                            technique_id=item["mitre_attack"],
+                            source="Threat Hunting Tables",
+                            command=item[key],
+                            name=key
+                        )
+                self.generated_data.add_dataset(
+                    technique_id=item["mitre_attack"],
+                    content=item
+                )

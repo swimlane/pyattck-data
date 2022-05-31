@@ -1,7 +1,6 @@
 import requests, yaml
 
 from ..githubcontroller import GitHubController
-from ..attacktemplate import AttackTemplate
 from ..base import Base
 
 
@@ -24,7 +23,6 @@ class BlueTeamLabs(GitHubController, Base):
         self.__temp_attack_paths = []
 
     def get(self):
-        return_list = []
         repo = self.github.get_repo(self.__REPO)
         contents = repo.get_contents("")
         while contents:
@@ -34,15 +32,16 @@ class BlueTeamLabs(GitHubController, Base):
             else:
                 if file_content.path.endswith('txt'):
                     if 'detections/' in file_content.path:
-                        template = AttackTemplate()
                         content = self.__download_raw_content(self.__URL.format(file_content.path))
                         file_name = file_content.path.rsplit('/', 1)[1]
-                        template.id = file_name.split('_',1)[0]
-                        query_name = file_name.rsplit('.txt')[0].replace(template.id,'').replace('_',' ').strip()
-                        template.add_possible_queries('Azure Sentinel',content, name=query_name)
-                        return_list.append(template.get())
-        return return_list
-           
+                        technique_id = file_name.split('_',1)[0]
+                        self.generated_data.add_possible_queries(
+                            technique_id=technique_id,
+                            product="Azure Sentinel",
+                            content=content,
+                            name=file_name.rsplit('.txt')[0].replace(technique_id,'').replace('_',' ').strip()
+                        )
+
     def __download_raw_content(self, url):
         response = self.session.get(url)
         if response.status_code == 200:
