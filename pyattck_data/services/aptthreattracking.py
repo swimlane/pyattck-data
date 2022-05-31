@@ -150,7 +150,7 @@ class APTThreatTracking(Base):
                     description=description,
                     tools=tools,
                     links=links,
-                    attack_id=attck_id,
+                    attck_id=attck_id,
                     comment=comment
                 )
             actor_names = []
