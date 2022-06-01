@@ -125,7 +125,7 @@ class PyattckData(Base):
 
     def save(self):
         data = self.go()
-        with open('generated_attck_data.json', 'w') as f:
+        with open('generated_attck_data_v2.json', 'w') as f:
             f.write(json.dumps(data))
 
     def merge(self):
