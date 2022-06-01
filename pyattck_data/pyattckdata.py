@@ -131,7 +131,7 @@ class PyattckData(Base):
     def merge(self):
         self._save_json_data()
         data = None
-        with open('generated_attck_data.json') as f:
+        with open('generated_attck_data_v2.json') as f:
             data = json.load(f)
         for framework in ['enterprise_attck', 'pre_attck', 
                           'mobile_attck', 'ics_attck']:
@@ -147,5 +147,5 @@ class PyattckData(Base):
                         item.update(**self._update_tool(item, data))
                     elif item['type'] == 'intrusion-set':
                         item.update(**self._update_actor(item, data))
-            with open(f'merged_{framework}.json', 'w+') as f:
+            with open(f'merged_{framework}_v1.json', 'w+') as f:
                 f.write(json.dumps(attck))
