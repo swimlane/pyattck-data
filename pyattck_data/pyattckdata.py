@@ -33,6 +33,7 @@ class PyattckData(Base):
     pre_attck="https://raw.githubusercontent.com/mitre/cti/master/pre-attack/pre-attack.json"
     mobile_attck="https://raw.githubusercontent.com/mitre/cti/master/mobile-attack/mobile-attack.json"
     ics_attck="https://raw.githubusercontent.com/mitre/cti/master/ics-attack/ics-attack.json"
+    nist_controls="https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-control-framework-mappings/main/frameworks/attack_10_1/nist800_53_r4/stix/nist800-53-r4-controls.json"
 
     def go(self):
         for service in [
@@ -113,7 +114,7 @@ class PyattckData(Base):
 
     def _save_json_data(self, force: bool=False) -> None:
         for json_data in ['enterprise_attck', 'pre_attck', 
-                          'mobile_attck', 'ics_attck']:
+                          'mobile_attck', 'ics_attck', 'nist_controls']:
             try:
                 path = os.path.join(f"{json_data}.json")
                 if not os.path.exists(path) or force:
@@ -125,16 +126,16 @@ class PyattckData(Base):
 
     def save(self):
         data = self.go()
-        with open('generated_attck_data.json', 'w') as f:
+        with open('generated_attck_data_v2.json', 'w') as f:
             f.write(json.dumps(data))
 
     def merge(self):
         self._save_json_data()
         data = None
-        with open('generated_attck_data.json') as f:
+        with open('generated_attck_data_v2.json') as f:
             data = json.load(f)
         for framework in ['enterprise_attck', 'pre_attck', 
-                          'mobile_attck', 'ics_attck']:
+                          'mobile_attck', 'ics_attck', 'nist_controls']:
             attck = None
             with open(f'{framework}.json') as f:
                 attck = json.load(f)
@@ -147,5 +148,5 @@ class PyattckData(Base):
                         item.update(**self._update_tool(item, data))
                     elif item['type'] == 'intrusion-set':
                         item.update(**self._update_actor(item, data))
-            with open(f'merged_{framework}.json', 'w+') as f:
+            with open(f'merged_{framework}_v1.json', 'w+') as f:
                 f.write(json.dumps(attck))
