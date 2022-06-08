@@ -13,7 +13,7 @@ Generated data can be retrieved from the following URLs:
 * Mobile ATT&CK JSON (merged with external data) - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_mobile_attck_v1.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_mobile_attck_v1.json)
 * ICS ATT&CK JSON (merged with external data) - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_ics_attck_v1.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_ics_attck_v1.json)
 * NIST Controls JSON - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_nist_controls_v1.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_nist_controls_v1.json)
-* Generated NIST JSON - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json"](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json")
+* Generated NIST JSON - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json)
 * generated_attck_data.json - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json)
 * generated_attck_data_v2.json - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data_v2.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data_v2.json)
 
