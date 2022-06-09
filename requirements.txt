@@ -8,4 +8,4 @@ bs4
 pynacl==1.4.0
 attrs
 pydantic
-pyattck-data-models>=1.0.1
+pyattck-data-models>=2.0.0

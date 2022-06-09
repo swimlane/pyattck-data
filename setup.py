@@ -6,7 +6,7 @@ def parse_requirements(requirement_file):
 
 setup(
     name='pyattck-data',
-    version='1.0.1',
+    version='1.1.0',
     packages=find_packages(exclude=['tests*']),
     license='MIT',
     description='Generates contextual data utilized by pyattck.',
