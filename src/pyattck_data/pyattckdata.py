@@ -1,7 +1,7 @@
 import json
 import os
-from requests import request
 
+from requests import request
 from attrs import asdict
 
 from .base import Base

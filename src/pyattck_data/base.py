@@ -1,6 +1,6 @@
 import abc
 
-from pyattck_data_models import GeneratedData
+from .models.generated import GeneratedData
 
 
 class Base:

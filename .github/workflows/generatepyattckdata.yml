@@ -16,20 +16,27 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.4.0
     - name: Set up Python Environment
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2.3.0
       with:
         python-version: 3.8
+    - name: Upgrade pip
+      run: |
+        pip install --constraint=.github/workflows/constraints.txt pip
+        pip --version
+    - name: Install Poetry
+      run: |
+        pip install --constraint=.github/workflows/constraints.txt poetry
+        poetry --version
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -U -r requirements.txt
+        poetry install
     - name: Generate ATTCK Data
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        python run.py
+        poetry run python run.py
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:

@@ -148,7 +148,7 @@ class APTThreatTracking(Base):
                     targets=target,
                     operations=operations,
                     description=description,
-                    tools=tools,
+                    external_tools=tools,
                     links=links,
                     attck_id=attck_id,
                     comment=comment
