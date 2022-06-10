@@ -1,4 +1,5 @@
-import requests, xlrd
+import openpyxl
+import requests
 
 from ..base import Base
 
@@ -58,7 +59,34 @@ class AttckEmpire(Base):
 
     def get(self):
         response = requests.get(self.URL)
-        workbook = xlrd.open_workbook(file_contents=response.content)  # open workbook
-        worksheet = workbook.sheet_by_index(0)  # get first sheet
-        parsed_data = self._parse(worksheet)
-        self.__format(parsed_data)
+        open("Empire_modules.xlsx", "wb").write(response.content)
+        workbook = openpyxl.load_workbook(
+            filename="Empire_modules.xlsx"
+        )
+        columns = None
+        for item in workbook["Empire_Modules"].values:
+            if not columns:
+                columns = item
+            else:
+                technique = item[1]
+                self.generated_data.add_command(
+                    technique_id=technique,
+                    source=self.URL,
+                    name="Empire Module Command",
+                    command=item[0]
+                )
+                if item[2]:
+                    self.generated_data.add_command(
+                        technique_id=item[2],
+                        source=self.URL,
+                        name="Empire Module Command",
+                        command=item[0]
+                    )
+                    self.generated_data.add_dataset(
+                        technique_id=item[2],
+                        content=item
+                    )
+                self.generated_data.add_dataset(
+                    technique_id=technique,
+                    content=item
+                )
