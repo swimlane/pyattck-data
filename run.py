@@ -1,4 +1,6 @@
-from pyattck_data import GenerateNISTData, PyattckData
+from generate_data.generatenistdata import GenerateNISTData
+from generate_data.pyattckdata import PyattckData
+
 
 pydata = PyattckData()
 pydata.save()

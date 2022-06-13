@@ -24,10 +24,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+        pip install poetry
     - name: Generate ATTCK Data
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        poetry install
         python run.py
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
