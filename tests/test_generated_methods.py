@@ -135,7 +135,7 @@ def test_add_actor_item():
         targets=SAMPLE_DATA["targets"],
         operations=SAMPLE_DATA["operations"],
         description=SAMPLE_DATA["description"],
-        tools=SAMPLE_DATA["tools"],
+        external_tools=SAMPLE_DATA["tools"],
         links=SAMPLE_DATA["links"],
         attck_id=SAMPLE_DATA["attck_id"],
         comment=SAMPLE_DATA["comment"]

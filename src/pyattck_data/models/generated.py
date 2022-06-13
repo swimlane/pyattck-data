@@ -123,7 +123,7 @@ class GeneratedData:
     def default_updated(self):
         return str(datetime.now())
 
-    def add_actor_item(self, country, names, targets, operations, description, tools, links, attck_id, comment):
+    def add_actor_item(self, country, names, targets, operations, description, external_tools, links, attck_id, comment):
         self.actors.append(
             Actor(
                 country=country,
@@ -131,7 +131,7 @@ class GeneratedData:
                 targets=list(set(targets)) if targets else [],
                 operations=list(set(operations)) if operations else [],
                 description=description,
-                external_tools=list(set(tools)) if tools else [],
+                external_tools=list(set(external_tools)) if external_tools else [],
                 links=list(set(links)) if links else [],
                 attck_id=attck_id,
                 comment=comment
