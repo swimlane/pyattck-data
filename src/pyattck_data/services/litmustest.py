@@ -1,4 +1,4 @@
-import requests, markdown
+import requests
 
 from ..githubcontroller import GitHubController
 from ..base import Base
@@ -17,7 +17,6 @@ class LitmusTest(GitHubController, Base):
 
     def __init__(self):
         super(LitmusTest, self).__init__()
-        self.md = markdown.Markdown()
         self.session = requests.Session()
         self._dataset = []
         self.__temp_attack_paths = []
