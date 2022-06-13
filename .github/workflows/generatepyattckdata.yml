@@ -30,7 +30,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         poetry install
-        python run.py
+        poetry run python run.py
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
