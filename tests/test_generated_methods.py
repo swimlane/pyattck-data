@@ -1,6 +1,6 @@
 import json
 
-from pyattck_data.models.generated import GeneratedData
+from pyattck_data.generated import GeneratedData
 
 
 GENERATED_ATTCK_JSON = json.load(open("tests/resources/generated_attck_data.json"))
