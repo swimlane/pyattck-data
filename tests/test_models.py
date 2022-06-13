@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import requests
 
-from pyattck_data.models.attack import MitreAttck
-from pyattck_data.models.generated import GeneratedData
-from pyattck_data.models.nist import NistControls, GeneratedNistControlMap
-from pyattck_data.models.malware import Malware
-from pyattck_data.models.tool import Tool
-from pyattck_data.models.actor import Actor
-from pyattck_data.models.datacomponent import DataComponent
-from pyattck_data.models.datasource import DataSource
-from pyattck_data.models.mitigation import Mitigation
-from pyattck_data.models.tactic import Tactic
-from pyattck_data.models.technique import Technique
+from pyattck_data.attack import MitreAttck
+from pyattck_data.generated import GeneratedData
+from pyattck_data.nist import NistControls, GeneratedNistControlMap
+from pyattck_data.malware import Malware
+from pyattck_data.tool import Tool
+from pyattck_data.actor import Actor
+from pyattck_data.datacomponent import DataComponent
+from pyattck_data.datasource import DataSource
+from pyattck_data.mitigation import Mitigation
+from pyattck_data.tactic import Tactic
+from pyattck_data.technique import Technique
     
 ENTERPRISE_ATTCK_JSON = requests.get("https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_enterprise_attck_v1.json").json()
 PRE_ATTCK_JSON = requests.get("https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_pre_attck_v1.json").json()

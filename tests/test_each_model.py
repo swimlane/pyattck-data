@@ -1,5 +1,5 @@
-from pyattck_data.models.attack import MitreAttck, TYPE_MAP
-from pyattck_data.models.nist import NistControls, GeneratedNistControlMap, ControlObject, BaseRelationship
+from pyattck_data.attack import MitreAttck, TYPE_MAP
+from pyattck_data.nist import NistControls, GeneratedNistControlMap, ControlObject, BaseRelationship
 
 
 data = None

@@ -2,7 +2,7 @@
 import pytest
 
 
-from pyattck_data.models.types import (
+from pyattck_data.types import (
     Id,
     MitreDomain,
     MitrePlatform,
