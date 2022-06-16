@@ -9,30 +9,38 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7"]
+        poetry-version: ["1.2.0b2"]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
       contents: write
-
     steps:
     - uses: actions/checkout@v2.4.0
     - name: Set up Python Environment
       uses: actions/setup-python@v2.3.0
       with:
-        python-version: 3.8
+        python-version: ${{ matrix.python-version }}
     - name: Upgrade pip
       run: |
         pip install --constraint=.github/workflows/constraints.txt pip
         pip --version
+    - name: Run image
+      uses: abatilo/actions-poetry@v2.0.0
+      with:
+        poetry-version: ${{ matrix.poetry-version }}
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install poetry
     - name: Generate ATTCK Data
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        poetry run pip install --upgrade pip
         poetry install
         poetry run python run.py
     - name: Configure AWS Credentials
