@@ -21,14 +21,14 @@ jobs:
       uses: actions/setup-python@v2.3.0
       with:
         python-version: 3.8
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-        pip install poetry
     - name: Upgrade pip
       run: |
         pip install --constraint=.github/workflows/constraints.txt pip
         pip --version
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install poetry
     - name: Generate ATTCK Data
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
