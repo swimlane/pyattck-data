@@ -78,6 +78,10 @@ class Technique(BaseModel):
 
     controls: List = field(factory=list)
 
+    # additional convenience properties 
+    technique_id: AnyStr = field(factory=str)
+    stix: Id = field(factory=Id)
+
     @property
     def actors(self):
         return self._get_relationship_objects(
@@ -135,6 +139,8 @@ class Technique(BaseModel):
         )
 
     def __attrs_post_init__(self):
+        if self.id:
+            self.stix = self.id
         if self.controls:
             from .control import Control
             return_list = []
@@ -147,6 +153,9 @@ class Technique(BaseModel):
         if self.external_references:
             return_list = []
             for item in self.external_references:
+                if item.get('source_name') and item.get('external_id'):
+                    if item['external_id'].startswith('T'):
+                        self.technique_id = item['external_id']
                 return_list.append(ExternalReferences(**item))
             self.external_references = return_list
         if self.kill_chain_phases:
