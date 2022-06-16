@@ -25,6 +25,10 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install poetry
+    - name: Upgrade pip
+      run: |
+        pip install --constraint=.github/workflows/constraints.txt pip
+        pip --version
     - name: Generate ATTCK Data
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
