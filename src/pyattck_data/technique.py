@@ -138,6 +138,12 @@ class Technique(BaseModel):
             parent_type='tool'
         )
 
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
+
     def __attrs_post_init__(self):
         if self.id:
             self.stix = self.id
@@ -163,3 +169,8 @@ class Technique(BaseModel):
             for item in self.kill_chain_phases:
                 return_list.append(KillChainPhases(**item))
             self.kill_chain_phases = return_list
+        if self.commands:
+            return_list = []
+            for item in self.commands:
+                return_list.append(Command(**item))
+            self.commands = return_list
