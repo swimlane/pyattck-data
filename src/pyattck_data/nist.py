@@ -26,6 +26,13 @@ class ControlObject:
     x_mitre_priority: AnyStr = field(factory=str)
     x_mitre_impact: list = field(factory=list)
 
+    def __attrs_post_init__(self):
+        if self.external_references:
+            return_list = []
+            for item in self.external_references:
+                return_list.append(ExternalReferences(**item))
+            self.external_references = return_list
+
 
 @define
 class NistControls:
