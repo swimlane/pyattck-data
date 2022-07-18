@@ -20,6 +20,7 @@ class Matrix(BaseModel):
     tactic_refs: List[Id] = field()
     created_by_ref: Id = field()
     description: AnyStr = field()
+    revoked: bool = field(factory=bool)
     x_mitre_domains: List[MitreDomain] = field(factory=list)
     object_marking_refs: List[Id] = field(factory=list)
     external_references: List[ExternalReferences] = field(factory=list)
