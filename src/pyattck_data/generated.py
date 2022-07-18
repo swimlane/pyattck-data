@@ -30,6 +30,22 @@ class Technique:
     possible_detections: list = field(factory=list)
     external_reference: list = field(factory=list)
 
+    def __attrs_post_init__(self):
+        if self.commands:
+            return_list = []
+            for item in self.commands:
+                if not isinstance(item, TechniqueCommand):
+                    return_list.append(TechniqueCommand(**item))
+                else: return_list.append(item)
+            self.commands = return_list
+        if self.queries:
+            return_list = []
+            for item in self.queries:
+                if not isinstance(item, Query):
+                    return_list.append(Query(**item))
+                else: return_list.append(item)
+            self.queries = return_list
+
 
 @define
 class C2Data:
@@ -118,6 +134,28 @@ class GeneratedData:
     c2_data: List[C2Data] = field(factory=list)
     tools: List[Tool] = field(factory=list)
     actors: List[Actor] = field(factory=list)
+
+    def __attrs_post_init__(self):
+        if self.techniques:
+            return_list = []
+            for item in self.techniques:
+                return_list.append(Technique(**item))
+            self.techniques = return_list
+        if self.c2_data:
+            return_list = []
+            for item in self.c2_data:
+                return_list.append(C2Data(**item))
+            self.c2_data = return_list
+        if self.tools:
+            return_list = []
+            for item in self.tools:
+                return_list.append(Tool(**item))
+            self.tools = return_list
+        if self.actors:
+            return_list = []
+            for item in self.actors:
+                return_list.append(Actor(**item))
+            self.actors = return_list
 
     @last_updated.default
     def default_updated(self):
