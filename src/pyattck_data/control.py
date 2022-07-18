@@ -11,12 +11,18 @@ from .base import (
 
 @define
 class Control(BaseModel):
-    revoked: bool = field()
+    revoked: bool = field(factory=bool)
     x_mitre_family: AnyStr = field(factory=str)
     x_mitre_impact: List = field(factory=list)
     x_mitre_priority: AnyStr = field(factory=str)
     object_marking_refs: List[Id] = field(factory=list)
     external_references: List[ExternalReferences] = field(factory=list)
+
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
 
     def __attrs_post_init__(self):
         if self.external_references:
