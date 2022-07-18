@@ -25,3 +25,16 @@ class Relationship(BaseRelationship):
 
     # NOT used by pre-attack
     x_mitre_modified_by_ref: Id = field(factory=Id)
+
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
+
+    def __attrs_post_init__(self):
+        if self.external_references:
+            return_list = []
+            for item in self.external_references:
+                return_list.append(ExternalReferences(**item))
+            self.external_references = return_list
