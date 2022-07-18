@@ -29,13 +29,19 @@ class DataComponent(BaseModel):
     revoked: bool = field(factory=bool)
     external_references: List[ExternalReferences] = field(factory=list)
 
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
+
     def __attrs_post_init__(self):
         if self.external_references:
             return_list = []
             for item in self.external_references:
                 return_list.append(ExternalReferences(**item))
             self.external_references = return_list
-    
+
     @property
     def techniques(self):
         return self._get_relationship_objects(
