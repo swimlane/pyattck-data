@@ -32,3 +32,19 @@ class MarkingDefinition:
     x_mitre_attack_spec_version: SemVersion = field(factory=SemVersion)
     object_marking_refs: List = field(factory=list)
     external_references: List[ExternalReferences] = field(factory=list)
+
+    revoked: bool = field(factory=bool)
+
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            print(te)
+            raise te
+
+    def __attrs_post_init__(self):
+        if self.external_references:
+            return_list = []
+            for item in self.external_references:
+                return_list.append(ExternalReferences(**item))
+            self.external_references = return_list
