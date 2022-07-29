@@ -119,10 +119,11 @@ class Technique(BaseModel):
 
     @property
     def tactics(self):
-        return self._get_relationship_objects(
-            parent_id=self.id,
-            parent_type='x-mitre-tactic'
-        )
+        return_list = []
+        for phase in self.kill_chain_phases:
+            if phase.phase_name:
+                return_list.extend(self._get_tactic_objects(phase.phase_name))
+        return return_list
 
     @property
     def techniques(self):
