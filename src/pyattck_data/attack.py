@@ -46,6 +46,13 @@ class MitreAttck(BaseAttckModel):
     spec_version: SemVersion = field()
     objects: List = field()
     relationship_map: dict = field(factory=dict)
+    revoked: bool = field(factory=bool)
+
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
 
     def __attrs_post_init__(self):
         if self.objects:
@@ -56,8 +63,6 @@ class MitreAttck(BaseAttckModel):
                     return_list.append(data)
                     BASE_OBJECTS.append(data)
                 except TypeError as te:
-                    print(item)
-                    print(te)
                     raise te
                 if item['type'] == 'relationship' and item['relationship_type'] != 'revoked-by':
                     source_id = item['source_ref']

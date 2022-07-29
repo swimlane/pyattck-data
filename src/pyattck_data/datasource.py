@@ -36,6 +36,12 @@ class DataSource(BaseModel):
     # not used in ics-attack but used in others
     x_mitre_platforms: List[MitrePlatform] = field(factory=list)
 
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
+
     def __attrs_post_init__(self):
         if self.external_references:
             return_list = []

@@ -41,6 +41,13 @@ class Actor(BaseModel):
     attck_id:                    AnyStr            = field(factory=str)
     comment:                     AnyStr            = field(factory=str)
 
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            print(te)
+            raise te
+    
     def __attrs_post_init__(self):
         if self.external_references:
             return_list = []

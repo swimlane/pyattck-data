@@ -119,10 +119,11 @@ class Technique(BaseModel):
 
     @property
     def tactics(self):
-        return self._get_relationship_objects(
-            parent_id=self.id,
-            parent_type='x-mitre-tactic'
-        )
+        return_list = []
+        for phase in self.kill_chain_phases:
+            if phase.phase_name:
+                return_list.extend(self._get_tactic_objects(phase.phase_name))
+        return return_list
 
     @property
     def techniques(self):
@@ -137,6 +138,12 @@ class Technique(BaseModel):
             parent_id=self.id,
             parent_type='tool'
         )
+
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
 
     def __attrs_post_init__(self):
         if self.id:
@@ -163,3 +170,8 @@ class Technique(BaseModel):
             for item in self.kill_chain_phases:
                 return_list.append(KillChainPhases(**item))
             self.kill_chain_phases = return_list
+        if self.commands:
+            return_list = []
+            for item in self.commands:
+                return_list.append(Command(**item))
+            self.commands = return_list

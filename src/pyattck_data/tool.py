@@ -103,6 +103,12 @@ class Tool(BaseModel):
     x_mitre_modified_by_ref: Id = field(factory=Id)
     x_mitre_domains: List[MitreDomain] = field(factory=list)
 
+    def __init__(self, **kwargs):
+        try:
+            self.__attrs_init__(**kwargs)
+        except TypeError as te:
+            raise te
+
     def __attrs_post_init__(self):
         if self.external_references:
             return_list = []

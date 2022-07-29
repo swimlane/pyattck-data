@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyattck-data"
-version = "2.4.2"
+version = "2.5.0"
 description = "Pyattck Data"
 authors = ["Swimlane <info@swimlane.com>"]
 license = "MIT"
@@ -23,7 +23,6 @@ PyYAML = "^6.0"
 PyGithub = "^1.55"
 googletrans = "^3.0.0"
 bs4 = "^0.0.1"
-PyNaCl = "^1.5.0"
 importlib-metadata = "<3.4"
 openpyxl = "^3.0.10"
 
