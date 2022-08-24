@@ -23,6 +23,8 @@ class Mitigation(BaseModel):
     object_marking_refs: List[Id] = field(factory=list)
     external_references: List[ExternalReferences] = field(factory=list)
 
+    mitigation_id: AnyStr = field(factory=str)
+
     # used in ics-attack
     labels: List = field(factory=list) 
     x_mitre_attack_spec_version: SemVersion = field(factory=SemVersion)
@@ -46,6 +48,10 @@ class Mitigation(BaseModel):
         if self.external_references:
             return_list = []
             for item in self.external_references:
+                if item.get('source_name') and item.get('external_id'):
+                    if item['external_id'].startswith('M'):
+                        self.mitigation_id = item['external_id']
+
                 return_list.append(ExternalReferences(**item))
             self.external_references = return_list
 
