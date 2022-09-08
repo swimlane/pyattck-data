@@ -4,7 +4,7 @@ import requests
 
 import re
 
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 from ..githubcontroller import GitHubController
 from ..base import Base
@@ -25,7 +25,7 @@ class ThreatHuntingBook(GitHubController, Base):
 
     def __init__(self):
         super(ThreatHuntingBook, self).__init__()
-        self.translator = Translator()
+        self.translator = GoogleTranslator(source='auto', target='en')
         self.session = requests.Session()
         self._dataset = []
         self.__temp_attack_paths = []
