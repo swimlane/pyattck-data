@@ -41,6 +41,8 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         poetry run pip install --upgrade pip
+        poetry run pip install PyGithub>=1.55
+        poetry run pip install deep-translator
         poetry install
         poetry run python run.py
     - name: Configure AWS Credentials
