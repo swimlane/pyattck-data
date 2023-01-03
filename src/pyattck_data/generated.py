@@ -63,6 +63,7 @@ class C2Data:
     slingshot: AnyStr = field(factory=str)
     kali: AnyStr = field(factory=str)
     server: AnyStr = field(factory=str)
+    socks_support: bool = field(factory=bool)
     implant: AnyStr = field(factory=str)
     multi_user: bool = field(factory=bool)
     ui: bool = field(factory=bool)
