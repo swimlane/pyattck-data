@@ -22,6 +22,7 @@ from .relationship import Relationship
 from .tactic import Tactic
 from .technique import Technique
 from .tool import Tool
+from .campaign import Campaign
 
 
 TYPE_MAP = {
@@ -36,7 +37,8 @@ TYPE_MAP = {
     'relationship': Relationship,
     'x-mitre-tactic': Tactic,
     'attack-pattern': Technique,
-    'tool': Tool
+    'tool': Tool,
+    'campaign': Campaign
 }
 
 
