@@ -45,7 +45,7 @@ class Actor(BaseModel):
         try:
             self.__attrs_init__(**kwargs)
         except TypeError as te:
-            print(te)
+            print(f"There is an unknown key defined in the Actor JSON object. {te}")
             raise te
     
     def __attrs_post_init__(self):
