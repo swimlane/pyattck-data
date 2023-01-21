@@ -94,6 +94,7 @@ class Tool(BaseModel):
     slack_members: bool = field(factory=bool)
     gh_issues: bool = field(factory=bool)
     notes: AnyStr = field(factory=str)
+    socks_support: bool = field(factory=bool)
 
     # used in mobile attack
     x_mitre_old_attack_id: AnyStr = field(factory=str)
@@ -107,6 +108,7 @@ class Tool(BaseModel):
         try:
             self.__attrs_init__(**kwargs)
         except TypeError as te:
+            print(f"There is an unknown key defined in the Tool JSON object. {te}")
             raise te
 
     def __attrs_post_init__(self):

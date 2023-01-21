@@ -30,6 +30,7 @@ class Relationship(BaseRelationship):
         try:
             self.__attrs_init__(**kwargs)
         except TypeError as te:
+            print(f"There is an unknown key defined in the Relationship JSON object. {te}")
             raise te
 
     def __attrs_post_init__(self):
