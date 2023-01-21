@@ -20,7 +20,7 @@ jobs:
       id-token: write
       contents: write
     steps:
-    - uses: actions/checkout@v3.30
+    - uses: actions/checkout@v3.3.0
     - name: Set up Python Environment
       uses: actions/setup-python@v4.5.0
       with:
