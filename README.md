@@ -9,7 +9,6 @@
 <a href="https://github.com/pre-commit/pre-commit"><img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white" alt="pre-commit" style="float: left; margin-right: 10px;" /></a>
 <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Black" style="float: left; margin-right: 10px;" /></a>
 
-# 
 
 ## Features
 
@@ -32,7 +31,6 @@ Generated data can be retrieved from the following URLs:
 * Generated NIST JSON - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/attck_to_nist_controls.json)
 * generated_attck_data.json - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data.json)
 * generated_attck_data_v2.json - [https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data_v2.json](https://swimlane-pyattck.s3.us-west-2.amazonaws.com/generated_attck_data_v2.json)
-
 
 # Generated ATT&CK Datasets
 
