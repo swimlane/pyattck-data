@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.2](https://github.com/swimlane/pyattck-data/compare/2.6.1...2.6.2) (2023-02-10)
+
+
+### Bug Fixes
+
+* Updated docs ([d7de215](https://github.com/swimlane/pyattck-data/commit/d7de21548e25bc9bb89558f663fa05258b3e9285))
+
 ## [2.6.1](https://github.com/swimlane/pyattck-data/compare/v2.6.0...2.6.1) (2023-02-10)
 
 
