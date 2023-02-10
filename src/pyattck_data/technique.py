@@ -90,6 +90,13 @@ class Technique(BaseModel):
         )
 
     @property
+    def campaigns(self):
+        return self._get_relationship_objects(
+            parent_id=self.id,
+            parent_type='campaign'
+        )
+
+    @property
     def data_components(self):
         return self._get_relationship_objects(
             parent_id=self.id,

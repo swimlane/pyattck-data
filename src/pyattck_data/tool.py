@@ -126,6 +126,13 @@ class Tool(BaseModel):
         )
 
     @property
+    def campaigns(self):
+        return self._get_relationship_objects(
+            parent_id=self.id,
+            parent_type='campaign'
+        )
+
+    @property
     def techniques(self):
         return self._get_relationship_objects(
             parent_id=self.id,

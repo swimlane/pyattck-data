@@ -12,6 +12,7 @@ from pyattck_data.datasource import DataSource
 from pyattck_data.mitigation import Mitigation
 from pyattck_data.tactic import Tactic
 from pyattck_data.technique import Technique
+from pyattck_data.campaign import Campaign
     
 ENTERPRISE_ATTCK_JSON = requests.get("https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_enterprise_attck_v1.json").json()
 PRE_ATTCK_JSON = requests.get("https://swimlane-pyattck.s3.us-west-2.amazonaws.com/merged_pre_attck_v1.json").json()
@@ -57,6 +58,14 @@ def test_actor():
             for technique in item.techniques:
                 assert isinstance(technique, Technique)
 
+def test_campaign():
+    for item in ENTERPRISE_OBJ.objects:
+        if item.type == 'campaign':
+            for technique in item.techniques:
+                assert isinstance(technique, Technique)
+            for malware in item.malwares:
+                assert isinstance(malware, Malware)
+
 def test_datacomponent():
     for item in ENTERPRISE_OBJ.objects:
         if item.type == 'x-mitre-data-component':
@@ -78,6 +87,8 @@ def test_malware():
                 assert isinstance(technique, Technique)
             for actor in item.actors:
                 assert isinstance(actor, Actor)
+            for campaign in item.campaigns:
+                assert isinstance(campaign, Campaign)
 
 def test_mitigation():
     for item in ENTERPRISE_OBJ.objects:
@@ -96,6 +107,8 @@ def test_technique():
         if item.type == 'attack-pattern':
             for actor in item.actors:
                 assert isinstance(actor, Actor)
+            for campaign in item.campaigns:
+                assert isinstance(campaign, Campaign)
             for component in item.data_components:
                 assert isinstance(component, DataComponent)
             for source in item.data_sources:
