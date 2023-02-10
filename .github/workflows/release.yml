@@ -4,65 +4,39 @@ on:
   push:
     branches:
       - main
-
+permissions:
+  contents: write
+  pull-requests: write
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3.3.0
+      - uses: google-github-actions/release-please-action@v3
+        id: release
         with:
-          fetch-depth: 2
-
+          release-type: python
+          package-name: pyattck-data
+          bump-minor-pre-major: true
+          bump-patch-for-minor-pre-major: true
+          include-v-in-tag: false
+      # The logic below handles the PyPi distribution:
+      - uses: actions/checkout@v3
+        # these if statements ensure that a publication only occurs when
+        # a new release is created:
+        if: ${{ steps.release.outputs.release_created }}
       - name: Set up Python
-        uses: actions/setup-python@v4.5.0
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-
-      - name: Upgrade pip
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt pip
-          pip --version
-
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Check if there is a parent commit
-        id: check-parent-commit
-        run: |
-          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
-
-      - name: Detect and tag new version
-        id: check-version
-        if: steps.check-parent-commit.outputs.sha
-        uses: salsify/action-detect-and-tag-new-version@v2.0.3
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Set up poetry
+        uses: abatilo/actions-poetry@v2.2.0
         with:
-          version-command: |
-            bash -o pipefail -c "poetry version | awk '{ print \$2 }'"
-
-      - name: Bump version for release
-        if: "! steps.check-version.outputs.tag"
-        run: |
-          poetry version patch &&
-          version=$(poetry version | awk '{ print $2 }') &&
-          poetry version $version
-
-      - name: Build package
-        run: |
-          poetry build --ansi
-
-      - name: Publish package on PyPI
+          poetry-version: 1.3.2
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Publish
         run: |
           poetry config http-basic.pypi ${{ secrets.PYPI_USERNAME }} ${{ secrets.PYPI_PASSWORD }}
-          poetry publish
-
-      - name: Publish the release notes
-        uses: release-drafter/release-drafter@v5.22.0
-        with:
-          publish: ${{ steps.check-version.outputs.tag != '' }}
-          tag: ${{ steps.check-version.outputs.tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          poetry publish --build
+        if: ${{ steps.release.outputs.release_created }}
