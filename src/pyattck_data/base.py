@@ -56,12 +56,12 @@ class BaseModel(BaseAttckModel):
         return return_list
 
     def _get_tactic_objects(self, name):
-        return_list = []
+        return_set = set()
         for item in BASE_OBJECTS:
             if item.type == "x-mitre-tactic":
                 if hasattr(item, "x_mitre_shortname") and item.x_mitre_shortname == name.lower():
-                    return_list.append(item)
-        return return_list
+                    return_set.add(item)
+        return list(return_set)
 
     def __attrs_post_init__(self):
         if self.external_references:
