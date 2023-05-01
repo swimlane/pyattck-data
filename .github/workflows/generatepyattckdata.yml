@@ -48,7 +48,7 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: arn:aws:iam::265337873895:role/pyattck
+        role-to-assume: ${{ secrets.SWIMLANE_PYATTCK_ROLE }}
         aws-region: us-west-2
     - name: Upload files to S3 with AWS CLI
       run: |
