@@ -30,7 +30,7 @@ jobs:
         pip install --constraint=.github/workflows/constraints.txt pip
         pip --version
     - name: Run image
-      uses: abatilo/actions-poetry@v2.2.0
+      uses: abatilo/actions-poetry@v2.3.0
       with:
         poetry-version: ${{ matrix.poetry-version }}
     - name: Install dependencies
