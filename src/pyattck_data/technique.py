@@ -75,8 +75,10 @@ class Technique(BaseModel):
     parsed_datasets: List = field(factory=list) # need to define this object better
     possible_detections: List = field(factory=list) # need to define this object better
     external_reference: List = field(factory=list)
-
     controls: List = field(factory=list)
+
+    # Added in v13 of ATT&CK
+    x_mitre_network_requirements: bool = field(factory=bool)
 
     # additional convenience properties 
     technique_id: AnyStr = field(factory=str)

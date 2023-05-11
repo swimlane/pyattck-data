@@ -233,10 +233,10 @@ class GeneratedData:
         if self.techniques:
             found = False
             for technique in self.techniques:
-                if technique.technique_id == technique_id:
+                if technique.technique_id == technique_id and content:
                     found = True
                     technique.parsed_datasets.append(content)
-            if not found:
+            if not found and content:
                 self.techniques.append(
                     Technique(
                         technique_id=technique_id,
@@ -244,12 +244,13 @@ class GeneratedData:
                     )
                 )
         else:
-            self.techniques.append(
-                    Technique(
-                        technique_id=technique_id,
-                        parsed_datasets=[content]
+            if content:
+                self.techniques.append(
+                        Technique(
+                            technique_id=technique_id,
+                            parsed_datasets=[content]
+                        )
                     )
-                )
 
     def add_possible_queries(self, technique_id, product, content, name):
         q = Query(
