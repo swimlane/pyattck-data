@@ -56,8 +56,12 @@ class PyattckData(Base):
             NewBeeAttackDataset,
             AttckDatasources
         ]:
-            print(f"Processing {service} now.")
-            getattr(service(), 'get')()
+            try:
+                print(f"Processing {service} now.")
+                getattr(service(), 'get')()
+            except Exception as e:
+                print(f"ERROR WITH SERVICE '{service}': {e}")
+                continue
         return asdict(self.generated_data)
 
     def _update_attack_patterns(self, item, generated_data):
@@ -125,6 +129,7 @@ class PyattckData(Base):
         return True
 
     def save(self):
+
         data = self.go()
         with open('generated_attck_data_v2.json', 'w+') as f:
             f.write(json.dumps(data))

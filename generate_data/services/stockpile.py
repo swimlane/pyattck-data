@@ -77,7 +77,7 @@ class MitreStockpile(GitHubController, Base):
     def __parse_yaml_content(self, content, url):
         if isinstance(content, list):
             for item in content:
-                if item.get('platforms'):
+                if item.get('platforms') and item.get("technique") and item.get("description"):
                     if isinstance(item['platforms'], dict):
                         new_item = self.gen_dict_extract('command', item)
                         if new_item:
