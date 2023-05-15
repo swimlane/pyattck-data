@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.3](https://github.com/swimlane/pyattck-data/compare/2.6.2...2.6.3) (2023-05-11)
+
+
+### Bug Fixes
+
+* Updating error handling and checking in generated data ([ddd8fbf](https://github.com/swimlane/pyattck-data/commit/ddd8fbf7691a9507feb8558a0d9d9a25f64e2b6c))
+* Updating to support changes from Attack 13 ([d7cff7b](https://github.com/swimlane/pyattck-data/commit/d7cff7b64aa65351a8371b392800ec953e021c87))
+
 ## [2.6.2](https://github.com/swimlane/pyattck-data/compare/2.6.1...2.6.2) (2023-02-10)
 
 
