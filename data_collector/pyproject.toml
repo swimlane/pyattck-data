@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "data-collector"
+version = "0.1.0"
+description = ""
+authors = ["Josh Rickard <jrickard@appomni.com>"]
+readme = "README.md"
+packages = [{include = "data_collector", from = "src"}]
+include = [
+    "src/data_collector/data/logging.yml"
+]
+
+[tool.poetry.scripts]
+pyattck-collector = "src.data_collector.__main__:main"
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+attrs = "^23.1.0"
+openpyxl = "^3.1.2"
+requests = "^2.31.0"
+fire = "^0.5.0"
+pygithub = "^1.59.0"
+pydantic = "^1.10.9"
+deep-translator = "^1.11.1"
+orjson = "^3.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
