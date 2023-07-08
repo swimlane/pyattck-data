@@ -1,4 +1,4 @@
-from datetime import datetime
+import pendulum
 
 from .types import (
     SemVersion
@@ -51,7 +51,7 @@ class MitreAttck(BaseAttckModel):
     objects: List = field()
     relationship_map: dict = field(factory=dict)
     revoked: bool = field(factory=bool)
-    last_updated: AnyStr = field(default=datetime.now())
+    last_updated: AnyStr = field(factory=str)
 
     def __init__(self, **kwargs):
         try:
@@ -81,3 +81,7 @@ class MitreAttck(BaseAttckModel):
                     if source_id not in RELATIONSHIP_MAP[target_id]:
                         RELATIONSHIP_MAP[target_id].append(source_id)
             self.objects = return_list
+
+    @last_updated.default
+    def _get_last_updated(self):
+        return pendulum.now().to_iso8601_string()
