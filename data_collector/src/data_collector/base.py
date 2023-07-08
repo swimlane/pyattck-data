@@ -1,5 +1,3 @@
-import abc
-
 from requests import Session
 
 from pyattck_data.attack import MitreAttck

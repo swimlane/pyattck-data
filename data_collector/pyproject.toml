@@ -12,20 +12,15 @@ include = [
 [tool.poetry.scripts]
 pyattck-collector = "src.data_collector.__main__:main"
 
-
 [tool.poetry.dependencies]
 python = "^3.11"
-attrs = "^23.1.0"
-openpyxl = "^3.1.2"
 requests = "^2.31.0"
-fire = "^0.5.0"
+attrs = "^23.1.0"
 pygithub = "^1.59.0"
-pydantic = "^1.10.9"
-deep-translator = "^1.11.1"
-orjson = "^3.9.1"
-pyattck-data = { path = ".." }
-wrapt = "1.3"
-pip = "^23.1.2"
+pyyaml = "^6.0"
+openpyxl = "^3.1.2"
+orjson = "^3.9.2"
+deep-translator = "^1.11.4"
 
 [build-system]
 requires = ["poetry-core"]

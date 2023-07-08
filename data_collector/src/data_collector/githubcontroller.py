@@ -1,5 +1,6 @@
 import yaml, os
 from github import Github
+from github import Auth
 
 from .base import Base
 
@@ -7,10 +8,11 @@ from .base import Base
 class GitHubController(Base):
 
     def __init__(self):
-        token = self.__get_token_from_env_variable()
-        if not token:
-            token = self.__get_token_from_config()
-        self.github = Github(token)
+        try:
+            self.auth = Auth.Token(self.__get_token_from_env_variable())
+        except:
+            self.auth = Auth.Token(self.__get_token_from_config())
+        self.github = Github(auth=self.auth)
 
     def __get_token_from_env_variable(self):
         if 'GH_TOKEN' in os.environ:
