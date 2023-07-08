@@ -40,18 +40,7 @@ jobs:
         cd data_collector
         poetry config virtualenvs.create false
         poetry install
-        poetry run pip install -r ../requirements.txt
         poetry run python run.py
-    # - name: Generate ATTCK Data
-    #   env:
-    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   run: |
-    #     cd ..
-    #     poetry run pip install --upgrade pip
-    #     poetry run pip install PyGithub>=1.55
-    #     poetry run pip install deep-translator
-    #     poetry install
-    #     poetry run python run.py
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:

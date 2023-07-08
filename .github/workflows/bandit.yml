@@ -31,22 +31,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Bandit Scan
-        uses: shundor/python-bandit-scan@9cc5aa4a006482b8a7f91134412df6772dbda22c
+        uses: shundor/python-bandit-scan@v1.0
         with: # optional arguments
           # exit with 0, even with results found
           exit_zero: true # optional, default is DEFAULT
           # Github token of the repository (automatically created by Github)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
           # File or directory to run bandit on
-          # path: # optional, default is .
-          # Report only issues of a given severity level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)
-          # level: # optional, default is UNDEFINED
-          # Report only issues of a given confidence level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)
-          # confidence: # optional, default is UNDEFINED
-          # comma-separated list of paths (glob patterns supported) to exclude from scan (note that these are in addition to the excluded paths provided in the config file) (default: .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg)
-          # excluded_paths: # optional, default is DEFAULT
-          # comma-separated list of test IDs to skip
-          # skips: # optional, default is DEFAULT
-          # path to a .bandit file that supplies command line arguments
-          # ini_path: # optional, default is DEFAULT
-
+          path: "."
+          level: high
+          confidence: high

@@ -11,10 +11,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - { python: "3.11", os: "ubuntu-latest", session: "tests" }
           - { python: "3.10", os: "ubuntu-latest", session: "tests" }
           - { python: "3.9", os: "ubuntu-latest", session: "tests" }
           - { python: "3.8", os: "ubuntu-latest", session: "tests" }
-          - { python: "3.7", os: "ubuntu-latest", session: "tests" }
     env:
       NOXSESSION: ${{ matrix.session }}
       FORCE_COLOR: "1"
@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          pipx install poetry
+          curl -sSL https://install.python-poetry.org | python3 -
           poetry --version
 
       - name: Install Nox
@@ -106,7 +106,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       - name: Upgrade pip
         run: |
@@ -115,7 +115,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          pipx install poetry
+          curl -sSL https://install.python-poetry.org | python3 -
           poetry --version
 
       - name: Install Nox
