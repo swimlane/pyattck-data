@@ -544,23 +544,6 @@ files = [
 flake8 = "*"
 
 [[package]]
-name = "flake8-rst-docstrings"
-version = "0.2.7"
-description = "Python docstring reStructuredText (RST) validator"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "flake8-rst-docstrings-0.2.7.tar.gz", hash = "sha256:2740067ab9237559dd45a3434d8c987792c7b259ca563621a3b95efe201f5382"},
-    {file = "flake8_rst_docstrings-0.2.7-py3-none-any.whl", hash = "sha256:5d56075dce360bcc9c6775bfe7cb431aa395de600ca7e8d40580a28d50b2a803"},
-]
-
-[package.dependencies]
-flake8 = ">=3.0.0"
-pygments = "*"
-restructuredtext-lint = "*"
-
-[[package]]
 name = "furo"
 version = "2022.9.29"
 description = "A clean customisable Sphinx documentation theme."
@@ -1348,20 +1331,6 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
-name = "restructuredtext-lint"
-version = "1.4.0"
-description = "reStructuredText linter"
-category = "dev"
-optional = false
-python-versions = "*"
-files = [
-    {file = "restructuredtext_lint-1.4.0.tar.gz", hash = "sha256:1b235c0c922341ab6c530390892eb9e92f90b9b75046063e047cacfb0f050c45"},
-]
-
-[package.dependencies]
-docutils = ">=0.11,<1.0"
-
-[[package]]
 name = "rich"
 version = "13.4.2"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
@@ -1946,4 +1915,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "c7219be153602e6f133380906d47c30794d80aba421141be224c0c3bd9fa61c9"
+content-hash = "25bb8a2f43877ab3596d86b267835703e139eefc318e420c99e7b9b0ffc515b2"
