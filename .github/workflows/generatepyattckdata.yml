@@ -37,7 +37,7 @@ jobs:
       run: |
         cd data_collector
         poetry install
-        poetry install pip install -r ../requirements.txt
+        poetry run pip install -r ../requirements.txt
         poetry run python run.py
     # - name: Generate ATTCK Data
     #   env:
