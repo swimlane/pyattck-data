@@ -39,7 +39,9 @@ class Actor(BaseModel):
     targets:                     List              = field(factory=list)
     external_description:        List              = field(factory=list)
     attck_id:                    AnyStr            = field(factory=str)
+    attck_ids:                   List              = field(factory=list)
     comment:                     AnyStr            = field(factory=str)
+    comments:                    List              = field(factory=list)
 
     def __init__(self, **kwargs):
         try:

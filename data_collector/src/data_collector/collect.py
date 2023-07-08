@@ -24,6 +24,7 @@ from .services.nsmattck import NSMAttck
 from .services.osqueryattack import OsqueryAttack
 from .services.stockpile import MitreStockpile
 from .services.sysmonhunter import SysmonHunter
+from .services.splunkcontent import SplunkSecurityContent
 
 
 class Collector(Base):
@@ -53,6 +54,7 @@ class Collector(Base):
             OsqueryAttack,
             MitreStockpile,
             SysmonHunter,
+            SplunkSecurityContent,
         ]:
             self.__logger.info(f"Collecting data from {service.__name__}")
             service().parse()

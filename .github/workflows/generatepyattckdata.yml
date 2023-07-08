@@ -33,24 +33,22 @@ jobs:
       uses: abatilo/actions-poetry@v2.3.0
       with:
         poetry-version: ${{ matrix.poetry-version }}
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
     - name: Generate new data_collector data
       run: |
         cd data_collector
         poetry install
+        poetry install pip install -r ../requirements.txt
         poetry run python run.py
-    - name: Generate ATTCK Data
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cd ..
-        poetry run pip install --upgrade pip
-        poetry run pip install PyGithub>=1.55
-        poetry run pip install deep-translator
-        poetry install
-        poetry run python run.py
+    # - name: Generate ATTCK Data
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: |
+    #     cd ..
+    #     poetry run pip install --upgrade pip
+    #     poetry run pip install PyGithub>=1.55
+    #     poetry run pip install deep-translator
+    #     poetry install
+    #     poetry run python run.py
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -58,6 +56,7 @@ jobs:
         aws-region: us-west-2
     - name: Upload files to S3 with AWS CLI
       run: |
+        cd ..
         aws s3 cp generated_attck_data.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
         aws s3 cp generated_attck_data_v2.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
         aws s3 cp attck_to_nist_controls.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
