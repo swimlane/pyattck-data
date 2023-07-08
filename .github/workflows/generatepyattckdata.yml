@@ -27,7 +27,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Upgrade pip
       run: |
-        pip install --constraint=.github/workflows/constraints.txt pip
+        pip install --upgrade pip
         pip --version
     - name: Run image
       uses: abatilo/actions-poetry@v2.3.0
@@ -35,7 +35,10 @@ jobs:
         poetry-version: ${{ matrix.poetry-version }}
     - name: Generate new data_collector data
       run: |
+        poetry config virtualenvs.create false
+        poetry install
         cd data_collector
+        poetry config virtualenvs.create false
         poetry install
         poetry run pip install -r ../requirements.txt
         poetry run python run.py
