@@ -49,6 +49,7 @@ class MitreAttck(BaseAttckModel):
     objects: List = field()
     relationship_map: dict = field(factory=dict)
     revoked: bool = field(factory=bool)
+    last_updated: AnyStr = field()
 
     def __init__(self, **kwargs):
         try:
