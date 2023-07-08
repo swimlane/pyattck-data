@@ -1,4 +1,3 @@
-from math import factorial
 from .types import (
     Id,
     SemVersion

@@ -1,5 +1,4 @@
 from datetime import datetime
-from hashlib import new
 from typing import AnyStr, List
 
 from attrs import define, field
