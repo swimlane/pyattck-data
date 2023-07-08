@@ -10,8 +10,12 @@ class GitHubController(Base):
     def __init__(self):
         try:
             self.auth = Auth.Token(self.__get_token_from_env_variable())
-        except:
+        except Exception as e:
+            self.__logger.warning(f'No GitHub token found in environment variable GH_TOKEN: {e}')
+        try:
             self.auth = Auth.Token(self.__get_token_from_config())
+        except:
+            self.__logger.warning(f'No GitHub token found in config.yml: {e}')
         self.github = Github(auth=self.auth)
 
     def __get_token_from_env_variable(self):
