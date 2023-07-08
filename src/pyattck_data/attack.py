@@ -81,7 +81,4 @@ class MitreAttck(BaseAttckModel):
                     if source_id not in RELATIONSHIP_MAP[target_id]:
                         RELATIONSHIP_MAP[target_id].append(source_id)
             self.objects = return_list
-
-    @last_updated.default
-    def _get_last_updated(self):
-        return pendulum.now().to_iso8601_string()
+        self.last_updated = pendulum.now().to_iso8601_string()
