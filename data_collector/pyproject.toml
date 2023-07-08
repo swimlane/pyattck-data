@@ -23,7 +23,7 @@ pygithub = "^1.59.0"
 pydantic = "^1.10.9"
 deep-translator = "^1.11.1"
 orjson = "^3.9.1"
-
+pyattck-data = { path = ".." }
 
 [build-system]
 requires = ["poetry-core"]
