@@ -34,6 +34,8 @@ jobs:
       with:
         poetry-version: ${{ matrix.poetry-version }}
     - name: Generate new data_collector data
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         poetry config virtualenvs.create false
         poetry install
