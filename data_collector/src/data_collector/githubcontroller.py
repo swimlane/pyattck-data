@@ -8,14 +8,16 @@ from .base import Base
 class GitHubController(Base):
 
     def __init__(self):
+        self.auth = None
         try:
             self.auth = Auth.Token(self.__get_token_from_env_variable())
         except Exception as e:
             self.__logger.warning(f'No GitHub token found in environment variable GH_TOKEN: {e}')
-        try:
-            self.auth = Auth.Token(self.__get_token_from_config())
-        except:
-            self.__logger.warning(f'No GitHub token found in config.yml: {e}')
+        if not self.auth:
+            try:
+                self.auth = Auth.Token(self.__get_token_from_config())
+            except Exception as e:
+                self.__logger.warning(f'No GitHub token found in config.yml: {e}')
         self.github = Github(auth=self.auth)
 
     def __get_token_from_env_variable(self):
