@@ -51,7 +51,6 @@ jobs:
     - name: Upload files to S3 with AWS CLI
       run: |
         cd ..
-        aws s3 cp generated_attck_data.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
         aws s3 cp generated_attck_data_v2.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
         aws s3 cp attck_to_nist_controls.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
         aws s3 cp merged_enterprise_attck_v1.json s3://${{ secrets.SWIMLANE_PYATTCK_AWS_BUCKET_NAME }} --acl public-read
