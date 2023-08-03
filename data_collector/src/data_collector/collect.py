@@ -60,5 +60,5 @@ class Collector(Base):
             service().parse()
 
     def write(self) -> None:
-        with open("enterprise-attack.json", "w+") as f:
+        with open("generated_attck_data_v3.json", "w+") as f:
             json.dump(asdict(Base.attck), f, indent=4, allow_nan=False)

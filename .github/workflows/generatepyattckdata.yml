@@ -43,6 +43,14 @@ jobs:
         poetry config virtualenvs.create false
         poetry install
         poetry run python run.py
+    - name: Commit and push changes
+      run: |
+          git config --global user.name "MSAdministrator"
+          git config --global user.email "rickardja@live.com"
+    
+          git add -A
+          git commit -m "commit message"
+          git push
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
