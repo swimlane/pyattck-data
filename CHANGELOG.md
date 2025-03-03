@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.0.0](https://github.com/swimlane/pyattck-data/compare/2.6.3...3.0.0) (2025-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Adding splunk security content to dataset.
+
+### Features
+
+* Added last_updated field to MitreAttck data model ([ffc31c6](https://github.com/swimlane/pyattck-data/commit/ffc31c65d322b4ea326d1f851bce7172a853bd3d))
+* Adding splunk security content to dataset. ([ea7b52f](https://github.com/swimlane/pyattck-data/commit/ea7b52f3e92621b18607cf8952022c7f0bcf5a94))
+
+
+### Bug Fixes
+
+* Data file updates ([03b2535](https://github.com/swimlane/pyattck-data/commit/03b2535f51bbe0f4d42a17f55c5a6463c3aebb9e))
+* Minor deps updates ([9d268f5](https://github.com/swimlane/pyattck-data/commit/9d268f5556a1f0dc5915ba704e065474f674ca69))
+* Updated last_updated timestamp ([e8816d4](https://github.com/swimlane/pyattck-data/commit/e8816d43800d2a6efb1a991267546af751546503))
+* Updating actor comment field to comments list field ([afc5b18](https://github.com/swimlane/pyattck-data/commit/afc5b183d5f1f46e3d9ed4cd3d1a9379ca512fdf))
+
 ## [2.6.3](https://github.com/swimlane/pyattck-data/compare/2.6.2...2.6.3) (2023-05-11)
 
 
