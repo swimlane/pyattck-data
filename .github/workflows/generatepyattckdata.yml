@@ -52,7 +52,7 @@ jobs:
           git commit -m "commit message"
           git push
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.SWIMLANE_PYATTCK_ROLE }}
         aws-region: us-west-2
