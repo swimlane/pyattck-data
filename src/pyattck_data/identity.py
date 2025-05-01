@@ -24,7 +24,9 @@ class Identity:
     roles: List = field(factory=list)
     sectors: List = field(factory=list)
     external_references: List[ExternalReferences] = field(factory=list)
-
+    description: AnyStr = field(default=None)
+    x_mitre_attack_spec_version: AnyStr = field(default=None)
+    
     def __init__(self, **kwargs):
         try:
             self.__attrs_init__(**kwargs)
